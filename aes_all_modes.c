@@ -353,31 +353,17 @@ void aes_ccm(AES_crypt_type crypt, unsigned char* key_str, int key_size, unsigne
 
 void aes_gcm(AES_crypt_type crypt, unsigned char* key_str, int key_size, unsigned char* iv_str, int iv_size, unsigned char* src_str, int src_size, unsigned char* aad_str, int aad_size, int tag_len, unsigned char* tag_str, unsigned char** output, int* output_size)
 {
-    printf("Welcome in aes_gcm.\n");
 	gcm_context gcm;
     int status;
     int i;
-    printf("tag_len: %d\n", tag_len);
     tag_str = malloc(tag_len * sizeof(unsigned char));
-    printf("malloc tag ok.\n");
     memset(tag_str, 0x00, tag_len);
-    printf("memset tag OK.\n");
-    // output_size = malloc(sizeof(*output_size));
     *output_size = src_size;
-    // int output_size_int = src_size;
-    printf("output_size set.\n");
     *output = malloc(*output_size * sizeof(unsigned char));
-    // printf("malloc output ok.\n");
     memset(*output, 0x00, *output_size);
-    printf("memset output OK.\n");
-    printf("in aes_gcm(%d): output reset: 0x", *output_size);
-	for(i=0; i<*output_size; ++i)
-		printf("%02X", (*output)[i]);
-	printf("\n");
 
     if((status = gcm_init(&gcm, POLARSSL_CIPHER_ID_AES, key_str, key_size*8)) != 0)
 		polarssl_handleErrors(status, "AES GCM init error.\n");
-    printf("GCM context OK.\n");
     if(crypt == ENCRYPT)
         status = gcm_crypt_and_tag(&gcm, GCM_ENCRYPT, src_size, iv_str, iv_size, aad_str, aad_size, src_str, *output, tag_len, tag_str);
     else if(crypt == DECRYPT)
@@ -385,14 +371,6 @@ void aes_gcm(AES_crypt_type crypt, unsigned char* key_str, int key_size, unsigne
 
     if(status != 0)
 		polarssl_handleErrors(status, "AES GCM encryption error.\n");
-    printf("in aes_gcm(%d): output: 0x", *output_size);
-    for(i=0; i<*output_size; ++i)
-        printf("%02X", (*output)[i]);
-    printf("\n");
-    printf("in aes_gcm(%d): tag: 0x", tag_len);
-    for(i=0; i<tag_len; ++i)
-        printf("%02X", tag_str[i]);
-    printf("\n");
 }
 
 void init_aes_wrapper()
