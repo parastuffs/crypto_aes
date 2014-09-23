@@ -38,6 +38,7 @@ int main(int argc, char** argv)
         AES_mode        mode;
         AES_crypt_type  crypt;
         int is_last_vector = 0;
+        int fail;
         while(!is_last_vector) {
             get_next_vector(fp, &mode, &crypt, aes_in, aes_exp_res, &is_last_vector);
             printf("\n======== %s - KEY %d - %s =========\n", aes_mode_enumtostr(mode), aes_in->key_size * 8, crypt_type_enumtostr(crypt));
@@ -55,25 +56,35 @@ int main(int argc, char** argv)
                 mode == AES_OFB || mode == AES_CTR || 
                 mode == AES_CFB || mode == AES_CCM || 
                 mode == AES_GCM || mode == AES_XTS) {
+				fail = 0;
                 printf("Output: \t\t0x");
                 for(i=0; i<aes_res->output_size; ++i)
                     printf("%02X",aes_res->output[i]);
                 printf("\n");
                 printf("Expected output: \t0x");
-                for(i=0; i<aes_exp_res->output_size; ++i)
+                for(i=0; i<aes_exp_res->output_size; ++i) {
                     printf("%02X",aes_exp_res->output[i]);
+                    if(aes_exp_res->output[i] != aes_res->output[i])
+						fail = 1;
+				}
                 printf("\n");
+                printf("%s\n",fail?"<< FAIL":">> SUCCESS");
             }
             if(mode == AES_CMAC || mode == AES_OMAC1 ||
                 mode == AES_CCM || mode == AES_GCM) {
+				fail = 0;
                 printf("Tag: \t\t0x");
                 for(i=0; i<aes_res->tag_size; ++i)
                     printf("%02X",aes_res->tag[i]);
                 printf("\n");
                 printf("Expected tag: \t0x");
-                for(i=0; i<aes_exp_res->tag_size; ++i)
+                for(i=0; i<aes_exp_res->tag_size; ++i) {
                     printf("%02X",aes_exp_res->tag[i]);
+                    if(aes_exp_res->tag[i] != aes_res->tag[i])
+						fail = 1;
+				}
                 printf("\n");
+                printf("%s\n",fail?"<< FAIL":">> SUCCESS");
             }
         }
         
