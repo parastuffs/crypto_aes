@@ -15,9 +15,6 @@
 
 #include "aes_all_modes.h"
 #include "generic_tools.h"
- 
-//gcc -Wall aes_openssl.c -o aes_openssl -I../openssl-1.0.1i/include/ -lcrypto
-//http://wiki.openssl.org/index.php/EVP_Symmetric_Encryption_and_Decryption
 
 
 void openssl_handleErrors(void)
@@ -189,7 +186,7 @@ void aes_ctr(unsigned char* key_str, int key_size, unsigned char* nc_str, unsign
     int status;
     
     // Use the same key schedule for both encryption and decryption
-    // (cf PolarSSL documentation of aes_crypt_cfb8().
+    // (cf PolarSSL documentation of aes_crypt_cfb128().
 	if((status = aes_setkey_enc(&ctx, key_str, key_size*8)) != 0)
 		polarssl_handleErrors(status, "CTR init error.\n");
     
@@ -205,6 +202,8 @@ void aes_cbc(AES_crypt_type crypt, unsigned char* key_str, int key_size, unsigne
 
     *dst_size = src_size;
     *dst_str = calloc(*dst_size, sizeof(unsigned char));
+    
+    // There is no need to loop to process all the blocks, it's done automatically by the library.
     
     if(crypt == ENCRYPT) {
         if((status = aes_setkey_enc(&ctx, key_str, key_size*8)) != 0)

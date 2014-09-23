@@ -1,12 +1,20 @@
 #ifndef AES_ALL_MODES_H
 #define AES_ALL_MODES_H
 
+/**
+ * Encryption type.
+ */
 typedef enum {
-	ENCRYPT,
-	DECRYPT,
-    HASH
+	ENCRYPT,	///< Trigger encryption mode.
+	DECRYPT,	///< Trigger decryption mode.
+    HASH		///< Does not really trigger anything.
+				///< This element is there for clarity and output report,
+				///< as hashing functions are encryption only.
 } AES_crypt_type;
 
+/**
+ * Encryption modes.
+ */
 typedef enum {
 	AES_ECB,
 	AES_CBC,
@@ -50,12 +58,18 @@ typedef struct {
 void polarssl_handleErrors(int status, const char* msg_str);
 
 // openssl
+/**
+ * \brief openssl error handler.
+ */
 void openssl_handleErrors(void);
 
 /**
  * \brief AES general wrapper method.
  * 
  * Switch on the \c mode and calls the corresponding function.
+ * Depending on the mode, some elements of the structures are not needed
+ * (e.g. ECB mode does not support IVs).
+ * For further details on what is needed, please refer to the specific methods.
  * 
  * \param		mode	AES mode to use.
  * \param		crypt	Encryption or decryption.
@@ -152,6 +166,7 @@ void aes_ccm(AES_crypt_type crypt, unsigned char* key_str, int key_size, unsigne
  *							Either 16, 24 or 32.
  * \param[in]	iv_str		IV string, 128-bits long.
  * \param[in]	src_str		Source string.
+ * 							Must be a multiple of 16 bytes.
  * \param		src_size	Source string size, in bytes.
  * \param[out]	dst_str		Poiter to the output string. No need to allocate memory.
  * \param[out]	dst_size	Output string size, in bytes. Set in the function.
@@ -186,6 +201,7 @@ void aes_cfb(AES_crypt_type crypt, unsigned char* key_str, int key_size, unsigne
  *							Either 16, 24 or 32.
  * \param[in]	src_str		Plain text string to be encrypted or decrypted.
  * \param		src_size	Plain text size, in bytes.
+ * 							Must be a multiple of 16 bytes.
  * \param[out]	dst_str		Pointer to the output string. Initialized in the function.
  * \param		dst_size	Pointer to the output string size, set in function.
  */

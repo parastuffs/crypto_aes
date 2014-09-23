@@ -29,12 +29,8 @@ int main(int argc, char** argv)
     }
     else {
         AES_res*        aes_exp_res = malloc(sizeof(AES_res));
-        // printf("Address of aes_exp_res->tag: %016X\n", &(aes_exp_res->tag));
-        // printf("Address of aes_exp_res->tag_size: %016X\n", &(aes_exp_res->tag_size));
-        // printf("Address of aes_exp_res->output: %016X\n", &(aes_exp_res->output));
         AES_res*        aes_res = malloc(sizeof(AES_res));
         AES_input*      aes_in = malloc(sizeof(AES_input));
-        // aes_in->aad = malloc(64);
         AES_mode        mode;
         AES_crypt_type  crypt;
         int is_last_vector = 0;
@@ -103,54 +99,41 @@ void get_next_vector(FILE* file, AES_mode* mode, AES_crypt_type* crypt, AES_inpu
     while(fgets(buf, MAXLINE_VEC, file) && !is_over) {
         if(buf[0] != '#') {
             sscanf(buf, "%s = %s\n", id, val);
-             //printf("Next to parse: %s\n", id);
             if(strcmp(id, "mode") == 0) {
                 *mode = aes_mode_strtoenum(val);
-                 //printf("mode set.\n");
             }
             else if(strcmp(id, "crypt") == 0) {
                 *crypt = crypt_type_strtoenum(val);
-                 //printf("crypt set.\n");
             }
             else if(strcmp(id, "source") == 0) {
                 in->source_size = strlen(val)/2;
                 in->source = malloc(in->source_size);
                 unhexify(in->source, val);
-                 //printf("source set.\n");
             }
             else if(strcmp(id, "aad") == 0) {
                 in->aad_size = strlen(val)/2;
                 in->aad = malloc(in->aad_size);
                 unhexify(in->aad, val);
-                 //printf("aad set.\n");
             }
             else if(strcmp(id, "key") == 0) {
                 in->key_size = strlen(val)/2;
                 in->key = malloc(in->key_size);
                 unhexify(in->key, val);
-                 //printf("key set.\n");
             }
             else if(strcmp(id, "iv") == 0) {
                 in->iv_size = strlen(val)/2;
                 in->iv = malloc(in->iv_size);
                 unhexify(in->iv, val);
-                 //printf("iv set.\n");
             }
             else if(strcmp(id, "output") == 0) {
-                //printf("Parsing output.\n");
                 exp_out->output_size = strlen(val)/2;
-                //printf("output_size set from test vector: %d.\n", exp_out->output_size);
                 exp_out->output = malloc(exp_out->output_size);
                 unhexify(exp_out->output, val);
-                 //printf("Output from test vector unhexified.\n");
-                 //printf("expected output set.\n");
             }
             else if(strcmp(id, "tag") == 0) {
-                // could be shorten into exp_out->tag_size = unhexify(exp_out->tag, val);
                 exp_out->tag_size = strlen(val)/2;
                 exp_out->tag = malloc(exp_out->tag_size);
                 unhexify(exp_out->tag, val);
-                 //printf("expected tag set.\n");
             }
             else if(strcmp(id, "END_VECTOR") == 0) {
                 is_over = 1;
