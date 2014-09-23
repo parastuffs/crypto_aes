@@ -3,7 +3,8 @@
 
 typedef enum {
 	ENCRYPT,
-	DECRYPT
+	DECRYPT,
+    HASH
 } AES_crypt_type;
 
 typedef enum {
@@ -74,10 +75,10 @@ void aes_wrapper(AES_mode mode, AES_crypt_type crypt, const AES_input* in, AES_r
  *							Either 16, 24 or 32.
  * \param[in]	src_str		Source string.
  * \param		src_size	Source string size, in bytes.
- * \param[out]	tag_str		Resulting tag string. Memory allocation is done in function.
+ * \param[out]	tag_str		Pointer to the resulting tag string. Memory allocation is done in function.
  * \param[in]	tag_size	Tag size in bytes.
  */
-void aes_omac(unsigned char* key, int key_size, unsigned char* src_str, int src_size, unsigned char* tag_str, int tag_size);
+void aes_omac(unsigned char* key, int key_size, unsigned char* src_str, int src_size, unsigned char** tag_str, int tag_size);
 
 /**
  * AES mode CMAC.
@@ -89,10 +90,12 @@ void aes_omac(unsigned char* key, int key_size, unsigned char* src_str, int src_
  *							Either 16, 24 or 32.
  * \param[in]	src_str		Source string.
  * \param		src_size	Source string size, in bytes.
- * \param[out]	tag_str		Resulting tag string. Memory allocation is done in function.
+ * \param[out]	tag_str		Pointer to the resulting tag string. Memory allocation is done in function.
  * \param[in]	tag_size	Tag size in bytes.
+ *                          Supports any length of tag up to 16 bytes.
+ *                          Tags smaller than 16 bytes are simply truncated.
  */
-void aes_cmac(unsigned char* key, int key_size, unsigned char* src_str, int src_size, unsigned char* tag_str, int tag_size);
+void aes_cmac(unsigned char* key, int key_size, unsigned char* src_str, int src_size, unsigned char** tag_str, int tag_size);
 
 /**
  * AES mode GCM.
@@ -102,19 +105,19 @@ void aes_cmac(unsigned char* key, int key_size, unsigned char* src_str, int src_
  * \param		crypt		ENCRYPT or DECRYPT
  * \param		key_str		Key string.
  * \param		key_size	Key size in bytes.
- *							Either 16, 24 or 32.
+ *							Either 16 or 32.
  * \param		iv_str		IV string.
- * \param		iv_size		IV string size, in bytes.
+ * \param		iv_size		IV string size, in bytes (must be 96).
  * \param[in]	src_str		Source string.
  * \param		src_size	Source string size, in bytes.
  * \param		aad_str		Additional data string.
  * \param		aad_size	Additional data string size, in bytes.
- * \param[out]	tag_str		Resulting tag string. Memory allocation is done in function.
- * \param[in]	tag_len		Tag size in bytes.
- * \param[out]	output		Resulting output.
+ * \param[out]	tag_str		Pointer to the resulting tag string.
+ * \param[in]	tag_len		Tag size in bytes (16).
+ * \param[out]	output		Pointer to the resulting output.
  * \param[out]	output_size	Output size, in bytes. Set in the function.
  */
-void aes_gcm(AES_crypt_type crypt, unsigned char* key_str, int key_size, unsigned char* iv_str, int iv_size, unsigned char* src_str, int src_size, unsigned char* aad_str, int aad_size, int tag_len, unsigned char* tag_str, unsigned char** output, int* output_size);
+void aes_gcm(AES_crypt_type crypt, unsigned char* key_str, int key_size, unsigned char* iv_str, int iv_size, unsigned char* src_str, int src_size, unsigned char* aad_str, int aad_size, int tag_len, unsigned char** tag_str, unsigned char** output, int* output_size);
 
 /**
  * AES mode CCM.
@@ -131,12 +134,12 @@ void aes_gcm(AES_crypt_type crypt, unsigned char* key_str, int key_size, unsigne
  * \param		src_size	Source string size, in bytes.
  * \param		aad_str		Additional data string.
  * \param		aad_size	Additional data string size, in bytes.
- * \param[out]	tag_str		Resulting tag string. Memory allocation is done in function.
+ * \param[out]	tag_str		Pointer to the resulting tag string.
  * \param[in]	tag_len		Tag size in bytes.
- * \param[out]	output		Resulting output.
+ * \param[out]	output		Pointer to the resulting output.
  * \param[out]	output_size	Output size, in bytes. Set in the function.
  */
-void aes_ccm(AES_crypt_type crypt, unsigned char* key_str, int key_size, unsigned char* iv_str, int iv_size, unsigned char* src_str, int src_size, unsigned char* aad_str, int aad_size, int tag_len, unsigned char* tag_str, unsigned char* output, int* output_size);
+void aes_ccm(AES_crypt_type crypt, unsigned char* key_str, int key_size, unsigned char* iv_str, int iv_size, unsigned char* src_str, int src_size, unsigned char* aad_str, int aad_size, int tag_len, unsigned char** tag_str, unsigned char** output, int* output_size);
 
 /**
  * \brief AES mode CBC.
@@ -150,10 +153,10 @@ void aes_ccm(AES_crypt_type crypt, unsigned char* key_str, int key_size, unsigne
  * \param[in]	iv_str		IV string, 128-bits long.
  * \param[in]	src_str		Source string.
  * \param		src_size	Source string size, in bytes.
- * \param[out]	dst_str		Output string. No need to allocate memory.
+ * \param[out]	dst_str		Poiter to the output string. No need to allocate memory.
  * \param[out]	dst_size	Output string size, in bytes. Set in the function.
  */
-void aes_cbc(AES_crypt_type crypt, unsigned char* key_str, int key_size, unsigned char* iv_str, unsigned char* src_str, int src_size, unsigned char* dst_str, int* dst_size);
+void aes_cbc(AES_crypt_type crypt, unsigned char* key_str, int key_size, unsigned char* iv_str, unsigned char* src_str, int src_size, unsigned char** dst_str, int* dst_size);
 
 /**
  * \brief AES mode CFB.
@@ -167,30 +170,35 @@ void aes_cbc(AES_crypt_type crypt, unsigned char* key_str, int key_size, unsigne
  * \param[in]	iv_str		IV string, 128-bits long.
  * \param[in]	src_str		Source string.
  * \param		src_size	Source string size, in bytes.
- * \param[out]	dst_str		Output string. No need to allocate memory.
+ * \param[out]	dst_str		Pointer to the output string. No need to allocate memory.
  * \param[out]	dst_size	Output string size, in bytes. Set in the function.
  */
-void aes_cfb(AES_crypt_type crypt, unsigned char* key_str, int key_size, unsigned char* iv_srt, unsigned char* src_str, int src_size, unsigned char* dst_str, int* dst_size);
+void aes_cfb(AES_crypt_type crypt, unsigned char* key_str, int key_size, unsigned char* iv_str, unsigned char* src_str, int src_size, unsigned char** dst_str, int* dst_size);
 
 /**
  * AES mode ECB.
  * 
- * Library: PolarSSL.
+ * Library: openSSL
  * 
  * \param		mode		Encryption mode.
  * \param		key_str		Key string.
+ * \param		key_size	Key size in bytes.
+ *							Either 16, 24 or 32.
  * \param[in]	src_str		Plain text string to be encrypted or decrypted.
  * \param		src_size	Plain text size, in bytes.
- * \param[out]	dst_str		Output string. Initialized in the function.
- * \param		dst_size	Output string size, set in function.
+ * \param[out]	dst_str		Pointer to the output string. Initialized in the function.
+ * \param		dst_size	Pointer to the output string size, set in function.
  */
-void aes_ecb(AES_crypt_type mode, unsigned char* key_str, int key_size, unsigned char* src_str, int src_size, unsigned char* dst_str, int* dst_size);
+void aes_ecb(AES_crypt_type mode, unsigned char* key_str, int key_size, unsigned char* src_str, int src_size, unsigned char** dst_str, int* dst_size);
 
 /**
  * \brief AES mode CTR.
  * 
  * Library: PolarSSL
- *
+ * 
+ * If the input data is larger than one block (128 bits), the counter is automatically
+ * incremented by PolarSSL.
+ * 
  * There is no distinction between the encrypt and decrypt mode.
  * 
  * \param		key_str		Key string.
@@ -200,10 +208,10 @@ void aes_ecb(AES_crypt_type mode, unsigned char* key_str, int key_size, unsigned
  * 							128-bits long.
  * \param[in]	src_str		Source string.
  * \param		src_size	Source string size, in bytes.
- * \param[out]	dst_str		Output string. No need to allocate memory.
+ * \param[out]	dst_str		Pointer to the output string. No need to allocate memory.
  * \param[out]	dst_size	Output string size, in bytes. Set in the function.
  */
-void aes_ctr(unsigned char* key_str, int key_size, unsigned char* nc_str, unsigned char* src_str, int src_size, unsigned char* dst_str, int* dst_size);
+void aes_ctr(unsigned char* key_str, int key_size, unsigned char* nc_str, unsigned char* src_str, int src_size, unsigned char** dst_str, int* dst_size);
 
 /**
  * \brief AES mode OFB.
@@ -217,10 +225,10 @@ void aes_ctr(unsigned char* key_str, int key_size, unsigned char* nc_str, unsign
  * \param[in]	iv			IV string, 128-bits long.
  * \param[in]	src			Source string.
  * \param		src_size	Source string size, in bytes.
- * \param[out]	output		Output string. No need to allocate memory.
+ * \param[out]	output		Pointer to the output string. No need to allocate memory.
  * \param[out]	output_size	Output string size, in bytes. Set in the function.
  */
-void aes_ofb(AES_crypt_type crypt, unsigned char* key, int key_size, unsigned char* iv, unsigned char* src, int src_size, unsigned char* output, int* output_size);
+void aes_ofb(AES_crypt_type crypt, unsigned char* key, int key_size, unsigned char* iv, unsigned char* src, int src_size, unsigned char** output, int* output_size);
 
 /**
  * \brief AES mode XTS.
@@ -243,7 +251,7 @@ void aes_ofb(AES_crypt_type crypt, unsigned char* key, int key_size, unsigned ch
  * \param[out]	output_size	Output string size, in bytes. Set in the function.
  * 
  */
-void aes_xts(AES_crypt_type crypt, unsigned char* key, int key_size, unsigned char* iv, unsigned char* src, int src_size, unsigned char* output, int* output_size);
+void aes_xts(AES_crypt_type crypt, unsigned char* key, int key_size, unsigned char* iv, unsigned char* src, int src_size, unsigned char** output, int* output_size);
 
 /**
  * \brief Initialize aes wrapper.
@@ -252,4 +260,40 @@ void aes_xts(AES_crypt_type crypt, unsigned char* key, int key_size, unsigned ch
  * 
  */
 void init_aes_wrapper(void);
+
+/**
+ * \brief Convert a string to the enum element it describes.
+ * 
+ * \param str   String to convert.
+ *              Basically, it's the same name as the enum element, but as a string.
+ */
+AES_crypt_type crypt_type_strtoenum(const char* str);
+
+/**
+ * \brief Convert an AES_crypt_type element to a string.
+ * 
+ * \param crypt Element to convert.
+ * 
+ * \return The crypt type as a readable string, either ENCRYPT or DECRYPT.
+ */
+char* crypt_type_enumtostr(AES_crypt_type crypt);
+
+/**
+ * \brief Convert a string to the enum element it describes.
+ * 
+ * \param str   String to convert.
+ *              Basically, it's the same name as the enum element, but as a string.
+ */
+AES_mode aes_mode_strtoenum(const char* str);
+
+/**
+ * \brief Convert an AES_mode element to a string.
+ * 
+ * \param mode  Element to convert.
+ * 
+ * \return The mode as a readable string. Not a complete sentence, just the mode.
+ */
+char* aes_mode_enumtostr(AES_mode mode);
+
+
 #endif
