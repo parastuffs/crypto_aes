@@ -163,7 +163,7 @@ void aes_ofb(AES_crypt_type crypt, unsigned char* key, int key_size, unsigned ch
 
 void aes_omac(unsigned char* key, int key_size, unsigned char* src_str, int src_size, unsigned char** tag_str, int tag_size)
 {
-    *tag_str = malloc(tag_size);
+    *tag_str = calloc(tag_size, sizeof(unsigned char));
     omac_ctx ctx;
     omac_init(key, key_size, &ctx);
     omac_data(src_str, src_size, &ctx);
@@ -172,7 +172,7 @@ void aes_omac(unsigned char* key, int key_size, unsigned char* src_str, int src_
 
 void aes_cmac(unsigned char* key, int key_size, unsigned char* src_str, int src_size, unsigned char** tag_str, int tag_size)
 {
-    *tag_str = malloc(tag_size);
+    *tag_str = calloc(tag_size, sizeof(unsigned char));
     cmac_ctx ctx;
     cmac_init(key, key_size, &ctx);
     cmac_data(src_str, src_size, &ctx);
@@ -184,7 +184,7 @@ void aes_ctr(unsigned char* key_str, int key_size, unsigned char* nc_str, unsign
 	size_t nc_offset = 0;
 	unsigned char stream_block[16];
 	*dst_size = src_size;
-    *dst_str = malloc(*dst_size);
+    *dst_str = calloc(*dst_size, sizeof(unsigned char));
 	aes_context ctx;
     int status;
     
@@ -202,10 +202,9 @@ void aes_cbc(AES_crypt_type crypt, unsigned char* key_str, int key_size, unsigne
 	aes_context ctx;
 	aes_init(&ctx);
     int status;
-    int i;
 
     *dst_size = src_size;
-    *dst_str = malloc(*dst_size);
+    *dst_str = calloc(*dst_size, sizeof(unsigned char));
     
     if(crypt == ENCRYPT) {
         if((status = aes_setkey_enc(&ctx, key_str, key_size*8)) != 0)
@@ -253,12 +252,8 @@ void aes_ecb(AES_crypt_type crypt, unsigned char* key_str, int key_size, unsigne
     int block_size = 16;
     aes_context ctx;
 	aes_init(&ctx);
-    // printf("ECB context initialied alright.\n");
 	*dst_size = src_size;
-    // printf("Destination size set: %d.\n", *dst_size);
-    // printf("Dest size address: %016X.\n", dst_size);
     *dst_str = calloc(*dst_size, sizeof(unsigned char));
-    // printf("Destination string malloc'd.\n");
     
     // Per-block encryption/decryption. We expect to be fed with an full number of block (128 bits).
     if(crypt == ENCRYPT) {
@@ -290,11 +285,9 @@ void aes_ccm(AES_crypt_type crypt, unsigned char* key_str, int key_size, unsigne
 	if((status = ccm_init( &ctx, POLARSSL_CIPHER_ID_AES, key_str, key_size*8 )) != 0)
 		polarssl_handleErrors(status, "CCM init error.\n");
 
-	*tag_str = malloc(tag_len * sizeof(unsigned char));
-    memset(*tag_str, 0x00, tag_len);
+	*tag_str = calloc(tag_len, sizeof(unsigned char));
     *output_size = src_size;
-    *output = malloc(*output_size * sizeof(unsigned char));
-    memset(*output, 0x00, *output_size);
+    *output = calloc(*output_size, sizeof(unsigned char));
 
 	if(crypt == ENCRYPT)
 		status = ccm_encrypt_and_tag( &ctx, src_size, iv_str, iv_size, aad_str, aad_size, src_str, *output, *tag_str, tag_len);
@@ -309,20 +302,16 @@ void aes_gcm(AES_crypt_type crypt, unsigned char* key_str, int key_size, unsigne
 {
 	gcm_context gcm;
     int status;
-    int i;
     *tag_str = calloc(tag_len, sizeof(unsigned char));
-    // memset(*tag_str, 0x00, tag_len);
-    //TODO replace with calloc
     *output_size = src_size;
     *output = calloc(*output_size, sizeof(unsigned char));
-    // memset(*output, 0x00, *output_size);
 
     if((status = gcm_init(&gcm, POLARSSL_CIPHER_ID_AES, key_str, key_size*8)) != 0)
 		polarssl_handleErrors(status, "AES GCM init error.\n");
     if(crypt == ENCRYPT)
         status = gcm_crypt_and_tag(&gcm, GCM_ENCRYPT, src_size, iv_str, iv_size, aad_str, aad_size, src_str, *output, tag_len, *tag_str);
     else if(crypt == DECRYPT)
-        status = gcm_auth_decrypt(&gcm, src_size, iv_str, iv_size, aad_str, aad_size, *tag_str, tag_len, src_str, *output);
+        status = gcm_crypt_and_tag(&gcm, GCM_DECRYPT, src_size, iv_str, iv_size, aad_str, aad_size, src_str, *output, tag_len, *tag_str);
 
     if(status != 0)
 		polarssl_handleErrors(status, "AES GCM encryption error.\n");
@@ -411,195 +400,3 @@ char* crypt_type_enumtostr(AES_crypt_type crypt)
     else
         return "encryption type unrecognized";
 }
-
-/*
-int main(void)
-{
-    int i;
-    
-    ERR_load_crypto_strings();
-    OpenSSL_add_all_algorithms();
-    OPENSSL_config(NULL);
-    
-    AES_MODE mode;
-    
-    // ------------------
-    // OFB 128
-    // ------------------
-    mode = AES_OFB_128;
-    
-    int aes_ofb_key_size = 16;
-    unsigned char *aes_ofb_key_128 = malloc(aes_ofb_key_size);
-    unhexify(aes_ofb_key_128, "2b7e151628aed2a6abf7158809cf4f3c");
-    
-    int aes_ofb_ref_iv_1_size = 16;
-    unsigned char *aes_ofb_ref_iv_1 = malloc(aes_ofb_ref_iv_1_size);
-    unhexify(aes_ofb_ref_iv_1, "000102030405060708090A0B0C0D0E0F");
-
-    int aes_ofb_ref_src_1_size = 16;
-    unsigned char *aes_ofb_ref_src_1 = malloc(aes_ofb_ref_src_1_size);
-    unhexify(aes_ofb_ref_src_1, "6bc1bee22e409f96e93d7e117393172a");
-
-    unsigned char *aes_ofb_ref_ct_1;
-    aes_ofb_ref_ct_1 = malloc(aes_ofb_ref_src_1_size);
-    // unsigned char *decryptedtext;
-
-    int ciphertext_len;
-    ciphertext_len = openssl_encrypt(mode, aes_ofb_ref_src_1, aes_ofb_ref_src_1_size, aes_ofb_key_128, aes_ofb_ref_iv_1, aes_ofb_ref_ct_1);
-    
-    
-    // ---------------
-    // XTS 128
-    // ---------------
-    // Reference vectors: "format tweak value input - 128 hex str/XTSGenAES128.rsp" from http://csrc.nist.gov/groups/STM/cavp/documents/aes/XTSTestVectors.zip
-    
-    mode = AES_XTS_128;
-    
-    int aes_xts_key_size_128 = 32; // In XTS mode, keys are twice as long.
-    unsigned char *aes_xts_key_128 = malloc(aes_xts_key_size_128);
-    unhexify(aes_xts_key_128, "a1b90cba3f06ac353b2c343876081762090923026e91771815f29dab01932f2f");
-    
-    int aes_xts_ref_iv_1_size = 16;
-    unsigned char *aes_xts_ref_iv_1 = malloc(aes_xts_ref_iv_1_size);
-    unhexify(aes_xts_ref_iv_1, "4faef7117cda59c66e4b92013e768ad5");
-
-    int aes_xts_ref_src_1_size = 16;
-    unsigned char *aes_xts_ref_src_1 = malloc(aes_xts_ref_src_1_size);
-    unhexify(aes_xts_ref_src_1, "ebabce95b14d3c8d6fb350390790311c");
-
-    unsigned char *aes_xts_ref_ct_1;
-    aes_xts_ref_ct_1 = malloc(aes_xts_ref_src_1_size);
-
-    ciphertext_len = openssl_encrypt(mode, aes_xts_ref_src_1, aes_xts_ref_src_1_size, aes_xts_key_128, aes_xts_ref_iv_1, aes_xts_ref_ct_1);
-    
-    
-    
-    // ---------------
-    // XTS 256
-    // ---------------
-    // Reference vectors: "format tweak value input - 128 hex str/XTSGenAES256.rsp" from http://csrc.nist.gov/groups/STM/cavp/documents/aes/XTSTestVectors.zip
-    
-    mode = AES_XTS_256;
-    
-    int aes_xts_key_size_256 = 64; // In XTS mode, keys are twice as long.
-    unsigned char *aes_xts_key_256 = malloc(aes_xts_key_size_256);
-    unhexify(aes_xts_key_256, "1ea661c58d943a0e4801e42f4b0947149e7f9f8e3e68d0c7505210bd311a0e7cd6e13ffdf2418d8d1911c004cda58da3d619b7e2b9141e58318eea392cf41b08");
-    
-    int aes_xts_ref_iv_2_size = 16;
-    unsigned char *aes_xts_ref_iv_2 = malloc(aes_xts_ref_iv_2_size);
-    unhexify(aes_xts_ref_iv_2, "adf8d92627464ad2f0428e84a9f87564");
-
-    int aes_xts_ref_src_2_size = 32;
-    unsigned char *aes_xts_ref_src_2 = malloc(aes_xts_ref_src_2_size);
-    unhexify(aes_xts_ref_src_2, "2eedea52cd8215e1acc647e810bbc3642e87287f8d2e57e36c0a24fbc12a202e");
-
-    unsigned char *aes_xts_ref_ct_2;
-    aes_xts_ref_ct_2 = malloc(aes_xts_ref_src_2_size);
-
-    ciphertext_len = openssl_encrypt(mode, aes_xts_ref_src_2, aes_xts_ref_src_2_size, aes_xts_key_256, aes_xts_ref_iv_2, aes_xts_ref_ct_2);
-    
-    // ---------------
-    // OMAC
-    // ---------------
-    // Test vectors from http://csrc.nist.gov/groups/ST/toolkit/BCM/documents/proposedmodes/omac/omac-ad.pdf
-    int aes_omac_tag_size = 16;
-    
-    int aes_omac_ref_key_128_size = 16;
-    unsigned char* aes_omac_ref_key_128 = malloc(aes_omac_ref_key_128_size);
-    unhexify(aes_omac_ref_key_128, "2b7e151628aed2a6abf7158809cf4f3c");
-    
-    int aes_omac_ref_msg_0_size = 0;
-    unsigned char* aes_omac_ref_msg_0 = malloc(aes_omac_ref_msg_0_size);
-    unhexify(aes_omac_ref_msg_0, "");
-    
-    unsigned char *aes_omac_k128_m0_tag = malloc(aes_omac_tag_size);
-    
-    aes_omac(aes_omac_ref_key_128, aes_omac_ref_key_128_size, aes_omac_ref_msg_0, aes_omac_ref_msg_0_size, aes_omac_k128_m0_tag, aes_omac_tag_size);
-    
-    printf("AES-OMAC1(k128, m0): 0x");
-    for(i=0; i<aes_omac_tag_size; ++i)
-        printf("%02X",aes_omac_k128_m0_tag[i]);
-    printf("\n");
-    
-    // ---------------
-    
-    int aes_omac_ref_msg_16_size = 16;
-    unsigned char* aes_omac_ref_msg_16 = malloc(aes_omac_ref_msg_16_size);
-    unhexify(aes_omac_ref_msg_16, "6bc1bee22e409f96e93d7e117393172a");
-    
-    unsigned char *aes_omac_k128_m16_tag = malloc(aes_omac_tag_size);
-    
-    aes_omac(aes_omac_ref_key_128, aes_omac_ref_key_128_size, aes_omac_ref_msg_16, aes_omac_ref_msg_16_size, aes_omac_k128_m16_tag, aes_omac_tag_size);
-    
-    printf("AES-OMAC1(k128, m16): 0x");
-    for(i=0; i<aes_omac_tag_size; ++i)
-        printf("%02X",aes_omac_k128_m16_tag[i]);
-    printf("\n");
-    // ---------------
-    int aes_omac_ref_msg_40_size = 40;
-    unsigned char* aes_omac_ref_msg_40 = malloc(aes_omac_ref_msg_40_size);
-    unhexify(aes_omac_ref_msg_40, "6bc1bee22e409f96e93d7e117393172aae2d8a571e03ac9c9eb76fac45af8e5130c81c46a35ce411");
-    
-    unsigned char *aes_omac_k128_m40_tag = malloc(aes_omac_tag_size);
-    
-    aes_omac(aes_omac_ref_key_128, aes_omac_ref_key_128_size, aes_omac_ref_msg_40, aes_omac_ref_msg_40_size, aes_omac_k128_m40_tag, aes_omac_tag_size);
-    
-    printf("AES-OMAC1(k128, m40): 0x");
-    for(i=0; i<aes_omac_tag_size; ++i)
-        printf("%02X",aes_omac_k128_m40_tag[i]);
-    printf("\n");
-    // ---------------
-    int aes_omac_ref_msg_64_size = 64;
-    unsigned char* aes_omac_ref_msg_64 = malloc(aes_omac_ref_msg_64_size);
-    unhexify(aes_omac_ref_msg_64, "6bc1bee22e409f96e93d7e117393172aae2d8a571e03ac9c9eb76fac45af8e5130c81c46a35ce411e5fbc1191a0a52eff69f2445df4f9b17ad2b417be66c3710");
-    
-    unsigned char *aes_omac_k128_m64_tag = malloc(aes_omac_tag_size);
-    
-    aes_omac(aes_omac_ref_key_128, aes_omac_ref_key_128_size, aes_omac_ref_msg_64, aes_omac_ref_msg_64_size, aes_omac_k128_m64_tag, aes_omac_tag_size);
-    
-    printf("AES-OMAC1(k128, m64): 0x");
-    for(i=0; i<aes_omac_tag_size; ++i)
-        printf("%02X",aes_omac_k128_m64_tag[i]);
-    printf("\n");
-    
-    
-    // ---------------------------
-    // CMAC
-    // ---------------------------
-    int aes_cmac_tag_size = 16;
-    
-    // Test vectors from CMACGenAES128.rsp, from http://csrc.nist.gov/groups/STM/cavp/documents/mac/cmactestvectors.zip
-    // Vector #6
-    int aes_cmac_ref_key_128_size = 16;
-    unsigned char* aes_cmac_ref_key_128 = malloc(aes_cmac_ref_key_128_size);
-    unhexify(aes_cmac_ref_key_128, "2b7e151628aed2a6abf7158809cf4f3c");
-    
-    int aes_cmac_ref_k128_msg_32_size = 16;
-    unsigned char* aes_cmac_ref_k128_msg_16 = malloc(aes_cmac_ref_k128_msg_32_size);
-    unhexify(aes_cmac_ref_k128_msg_16, "6bc1bee22e409f96e93d7e117393172a");
-    
-    unsigned char* aes_cmac_k128_m64_tag = malloc(aes_cmac_tag_size);
-    
-    aes_cmac(aes_cmac_ref_key_128, aes_cmac_ref_key_128_size, aes_cmac_ref_k128_msg_16, aes_cmac_ref_k128_msg_32_size, aes_cmac_k128_m64_tag);
-    
-    printf("AES-CMAC(k128, m64): 0x");
-    for(i=0; i<aes_cmac_tag_size; ++i)
-        printf("%02X", aes_cmac_k128_m64_tag[i]);
-    printf("\n");
-
-    // printf("Ciphertext is:\n");
-    // BIO_dump_fp(stdout, ciphertext, ciphertext_len);
-
-    // decryptedtext_len = openssl_decrypt(ciphertext, ciphertext_len, key, iv, decryptedtext);
-
-    // decryptedtext[decryptedtext_len] = '\0';
-
-    // printf("Decrypted text is:\n");
-    // printf("%s\n", decryptedtext);
-
-    EVP_cleanup();
-    ERR_free_strings();
-
-    return EXIT_SUCCESS;
-}
-*/
