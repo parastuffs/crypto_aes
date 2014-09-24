@@ -1,0 +1,84 @@
+.TH "AES_input" 3 "Wed Sep 24 2014" "Crypto AES" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+AES_input \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <aes_all_modes\&.h>\fP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "unsigned char * \fBsource\fP"
+.br
+.RI "\fISource string to be encrypted or decrypted, depending on the mode\&. \fP"
+.ti -1c
+.RI "int \fBsource_size\fP"
+.br
+.RI "\fISource string size, in bytes\&. \fP"
+.ti -1c
+.RI "unsigned char * \fBkey\fP"
+.br
+.RI "\fIKey string\&. \fP"
+.ti -1c
+.RI "int \fBkey_size\fP"
+.br
+.RI "\fIKey size, in bytes\&. \fP"
+.ti -1c
+.RI "unsigned char * \fBiv\fP"
+.br
+.RI "\fIIV string\&. \fP"
+.ti -1c
+.RI "int \fBiv_size\fP"
+.br
+.RI "\fIIV size, in bytes\&. \fP"
+.ti -1c
+.RI "unsigned char * \fBaad\fP"
+.br
+.RI "\fIAdditional data string, optional\&. \fP"
+.ti -1c
+.RI "int \fBaad_size\fP"
+.br
+.RI "\fIAdditional data size\&. \fP"
+.in -1c
+.SH "Field Documentation"
+.PP 
+.SS "unsigned char* AES_input::aad"
+
+.PP
+Additional data string, optional\&. 
+.SS "int AES_input::aad_size"
+
+.PP
+Additional data size\&. 
+.SS "unsigned char* AES_input::iv"
+
+.PP
+IV string\&. 
+.SS "int AES_input::iv_size"
+
+.PP
+IV size, in bytes\&. 
+.SS "unsigned char* AES_input::key"
+
+.PP
+Key string\&. 
+.SS "int AES_input::key_size"
+
+.PP
+Key size, in bytes\&. 
+.SS "unsigned char* AES_input::source"
+
+.PP
+Source string to be encrypted or decrypted, depending on the mode\&. 
+.SS "int AES_input::source_size"
+
+.PP
+Source string size, in bytes\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Crypto AES from the source code\&.

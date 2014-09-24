@@ -1,0 +1,505 @@
+.TH "aes_all_modes.h" 3 "Wed Sep 24 2014" "Crypto AES" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+aes_all_modes.h \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBAES_res\fP"
+.br
+.ti -1c
+.RI "struct \fBAES_input\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBAES_crypt_type\fP { \fBENCRYPT\fP, \fBDECRYPT\fP, \fBHASH\fP }"
+.br
+.ti -1c
+.RI "enum \fBAES_mode\fP { \fBAES_ECB\fP, \fBAES_CBC\fP, \fBAES_OFB\fP, \fBAES_CTR\fP, \fBAES_CFB\fP, \fBAES_CMAC\fP, \fBAES_OMAC1\fP, \fBAES_CCM\fP, \fBAES_GCM\fP, \fBAES_XTS\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBpolarssl_handleErrors\fP (int status, const char *msg_str)"
+.br
+.RI "\fIpolarssl error handler\&. \fP"
+.ti -1c
+.RI "void \fBopenssl_handleErrors\fP (void)"
+.br
+.RI "\fIopenssl error handler\&. \fP"
+.ti -1c
+.RI "void \fBaes_wrapper\fP (\fBAES_mode\fP mode, \fBAES_crypt_type\fP crypt, const \fBAES_input\fP *in, \fBAES_res\fP *res)"
+.br
+.RI "\fIAES general wrapper method\&. \fP"
+.ti -1c
+.RI "void \fBaes_omac\fP (unsigned char *key, int key_size, unsigned char *src_str, int src_size, unsigned char **tag_str, int tag_size)"
+.br
+.ti -1c
+.RI "void \fBaes_cmac\fP (unsigned char *key, int key_size, unsigned char *src_str, int src_size, unsigned char **tag_str, int tag_size)"
+.br
+.ti -1c
+.RI "void \fBaes_gcm\fP (\fBAES_crypt_type\fP crypt, unsigned char *key_str, int key_size, unsigned char *iv_str, int iv_size, unsigned char *src_str, int src_size, unsigned char *aad_str, int aad_size, int tag_len, unsigned char **tag_str, unsigned char **output, int *output_size)"
+.br
+.ti -1c
+.RI "void \fBaes_ccm\fP (\fBAES_crypt_type\fP crypt, unsigned char *key_str, int key_size, unsigned char *iv_str, int iv_size, unsigned char *src_str, int src_size, unsigned char *aad_str, int aad_size, int tag_len, unsigned char **tag_str, unsigned char **output, int *output_size)"
+.br
+.ti -1c
+.RI "void \fBaes_cbc\fP (\fBAES_crypt_type\fP crypt, unsigned char *key_str, int key_size, unsigned char *iv_str, unsigned char *src_str, int src_size, unsigned char **dst_str, int *dst_size)"
+.br
+.RI "\fIAES mode CBC\&. \fP"
+.ti -1c
+.RI "void \fBaes_cfb\fP (\fBAES_crypt_type\fP crypt, unsigned char *key_str, int key_size, unsigned char *iv_str, unsigned char *src_str, int src_size, unsigned char **dst_str, int *dst_size)"
+.br
+.RI "\fIAES mode CFB\&. \fP"
+.ti -1c
+.RI "void \fBaes_ecb\fP (\fBAES_crypt_type\fP mode, unsigned char *key_str, int key_size, unsigned char *src_str, int src_size, unsigned char **dst_str, int *dst_size)"
+.br
+.ti -1c
+.RI "void \fBaes_ctr\fP (unsigned char *key_str, int key_size, unsigned char *nc_str, unsigned char *src_str, int src_size, unsigned char **dst_str, int *dst_size)"
+.br
+.RI "\fIAES mode CTR\&. \fP"
+.ti -1c
+.RI "void \fBaes_ofb\fP (\fBAES_crypt_type\fP crypt, unsigned char *key, int key_size, unsigned char *iv, unsigned char *src, int src_size, unsigned char **output, int *output_size)"
+.br
+.RI "\fIAES mode OFB\&. \fP"
+.ti -1c
+.RI "void \fBaes_xts\fP (\fBAES_crypt_type\fP crypt, unsigned char *key, int key_size, unsigned char *iv, unsigned char *src, int src_size, unsigned char **output, int *output_size)"
+.br
+.RI "\fIAES mode XTS\&. \fP"
+.ti -1c
+.RI "void \fBinit_aes_wrapper\fP (void)"
+.br
+.RI "\fIInitialize aes wrapper\&. \fP"
+.ti -1c
+.RI "\fBAES_crypt_type\fP \fBcrypt_type_strtoenum\fP (const char *str)"
+.br
+.RI "\fIConvert a string to the enum element it describes\&. \fP"
+.ti -1c
+.RI "char * \fBcrypt_type_enumtostr\fP (\fBAES_crypt_type\fP crypt)"
+.br
+.RI "\fIConvert an AES_crypt_type element to a string\&. \fP"
+.ti -1c
+.RI "\fBAES_mode\fP \fBaes_mode_strtoenum\fP (const char *str)"
+.br
+.RI "\fIConvert a string to the enum element it describes\&. \fP"
+.ti -1c
+.RI "char * \fBaes_mode_enumtostr\fP (\fBAES_mode\fP mode)"
+.br
+.RI "\fIConvert an AES_mode element to a string\&. \fP"
+.in -1c
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBAES_crypt_type\fP"
+Encryption type\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIENCRYPT \fP\fP
+Trigger encryption mode\&. 
+.TP
+\fB\fIDECRYPT \fP\fP
+Trigger decryption mode\&. 
+.TP
+\fB\fIHASH \fP\fP
+Does not really trigger anything\&. This element is there for clarity and output report, as hashing functions are encryption only\&. 
+.SS "enum \fBAES_mode\fP"
+Encryption modes\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIAES_ECB \fP\fP
+.TP
+\fB\fIAES_CBC \fP\fP
+.TP
+\fB\fIAES_OFB \fP\fP
+.TP
+\fB\fIAES_CTR \fP\fP
+.TP
+\fB\fIAES_CFB \fP\fP
+.TP
+\fB\fIAES_CMAC \fP\fP
+.TP
+\fB\fIAES_OMAC1 \fP\fP
+.TP
+\fB\fIAES_CCM \fP\fP
+.TP
+\fB\fIAES_GCM \fP\fP
+.TP
+\fB\fIAES_XTS \fP\fP
+.SH "Function Documentation"
+.PP 
+.SS "void aes_cbc (\fBAES_crypt_type\fPcrypt, unsigned char *key_str, intkey_size, unsigned char *iv_str, unsigned char *src_str, intsrc_size, unsigned char **dst_str, int *dst_size)"
+
+.PP
+AES mode CBC\&. Library: PolarSSL
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcrypt\fP ENCRYPT or DECRYPT 
+.br
+\fIkey_str\fP Key string\&. 
+.br
+\fIkey_size\fP Key size in bytes\&. Either 16, 24 or 32\&. 
+.br
+\fIiv_str\fP IV string, 128-bits long\&. 
+.br
+\fIsrc_str\fP Source string\&. Must be a multiple of 16 bytes\&. 
+.br
+\fIsrc_size\fP Source string size, in bytes\&. 
+.br
+\fIdst_str\fP Poiter to the output string\&. No need to allocate memory\&. 
+.br
+\fIdst_size\fP Output string size, in bytes\&. Set in the function\&. 
+.RE
+.PP
+
+.SS "void aes_ccm (\fBAES_crypt_type\fPcrypt, unsigned char *key_str, intkey_size, unsigned char *iv_str, intiv_size, unsigned char *src_str, intsrc_size, unsigned char *aad_str, intaad_size, inttag_len, unsigned char **tag_str, unsigned char **output, int *output_size)"
+AES mode CCM\&.
+.PP
+Library: PolarSSL
+.PP
+Note: in decryption mode, the correct tag should already be filled\&. The data to decrypt should be set in the source string, and the decrypted data will be in the output string\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcrypt\fP ENCRYPT or DECRYPT 
+.br
+\fIkey_str\fP Key string\&. 
+.br
+\fIkey_size\fP Key size in bytes\&. Either 16, 24 or 32\&. 
+.br
+\fIiv_str\fP IV string\&. 
+.br
+\fIiv_size\fP IV string size, in bytes\&. 
+.br
+\fIsrc_str\fP Source string\&. 
+.br
+\fIsrc_size\fP Source string size, in bytes\&. 
+.br
+\fIaad_str\fP Additional data string\&. 
+.br
+\fIaad_size\fP Additional data string size, in bytes\&. 
+.br
+\fItag_str\fP Pointer to the resulting tag string\&. 
+.br
+\fItag_len\fP Tag size in bytes\&. 
+.br
+\fIoutput\fP Pointer to the resulting output\&. 
+.br
+\fIoutput_size\fP Output size, in bytes\&. Set in the function\&. 
+.RE
+.PP
+
+.SS "void aes_cfb (\fBAES_crypt_type\fPcrypt, unsigned char *key_str, intkey_size, unsigned char *iv_str, unsigned char *src_str, intsrc_size, unsigned char **dst_str, int *dst_size)"
+
+.PP
+AES mode CFB\&. Library: PolarSSL
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcrypt\fP ENCRYPT or DECRYPT 
+.br
+\fIkey_str\fP Key string\&. 
+.br
+\fIkey_size\fP Key size in bytes\&. Either 16, 24 or 32\&. 
+.br
+\fIiv_str\fP IV string, 128-bits long\&. 
+.br
+\fIsrc_str\fP Source string\&. 
+.br
+\fIsrc_size\fP Source string size, in bytes\&. 
+.br
+\fIdst_str\fP Pointer to the output string\&. No need to allocate memory\&. 
+.br
+\fIdst_size\fP Output string size, in bytes\&. Set in the function\&. 
+.RE
+.PP
+
+.SS "void aes_cmac (unsigned char *key, intkey_size, unsigned char *src_str, intsrc_size, unsigned char **tag_str, inttag_size)"
+AES mode CMAC\&.
+.PP
+Implementation of \fCBrian Gladman\fP\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIkey\fP Key string\&. 
+.br
+\fIkey_size\fP Key size in bytes\&. Either 16, 24 or 32\&. 
+.br
+\fIsrc_str\fP Source string\&. 
+.br
+\fIsrc_size\fP Source string size, in bytes\&. 
+.br
+\fItag_str\fP Pointer to the resulting tag string\&. Memory allocation is done in function\&. 
+.br
+\fItag_size\fP Tag size in bytes\&. Supports any length of tag up to 16 bytes\&. Tags smaller than 16 bytes are simply truncated\&. 
+.RE
+.PP
+
+.SS "void aes_ctr (unsigned char *key_str, intkey_size, unsigned char *nc_str, unsigned char *src_str, intsrc_size, unsigned char **dst_str, int *dst_size)"
+
+.PP
+AES mode CTR\&. Library: PolarSSL
+.PP
+If the input data is larger than one block (128 bits), the counter is automatically incremented by PolarSSL\&.
+.PP
+There is no distinction between the encrypt and decrypt mode\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIkey_str\fP Key string\&. 
+.br
+\fIkey_size\fP Key size in bytes\&. Either 16, 24 or 32\&. 
+.br
+\fInc_str\fP Nonce counter string, equivalent to the IV in other modes\&. 128-bits long\&. 
+.br
+\fIsrc_str\fP Source string\&. 
+.br
+\fIsrc_size\fP Source string size, in bytes\&. 
+.br
+\fIdst_str\fP Pointer to the output string\&. No need to allocate memory\&. 
+.br
+\fIdst_size\fP Output string size, in bytes\&. Set in the function\&. 
+.RE
+.PP
+
+.SS "void aes_ecb (\fBAES_crypt_type\fPmode, unsigned char *key_str, intkey_size, unsigned char *src_str, intsrc_size, unsigned char **dst_str, int *dst_size)"
+AES mode ECB\&.
+.PP
+Library: openSSL
+.PP
+\fBParameters:\fP
+.RS 4
+\fImode\fP Encryption mode\&. 
+.br
+\fIkey_str\fP Key string\&. 
+.br
+\fIkey_size\fP Key size in bytes\&. Either 16, 24 or 32\&. 
+.br
+\fIsrc_str\fP Plain text string to be encrypted or decrypted\&. 
+.br
+\fIsrc_size\fP Plain text size, in bytes\&. Must be a multiple of 16 bytes\&. 
+.br
+\fIdst_str\fP Pointer to the output string\&. Initialized in the function\&. 
+.br
+\fIdst_size\fP Pointer to the output string size, set in function\&. 
+.RE
+.PP
+
+.SS "void aes_gcm (\fBAES_crypt_type\fPcrypt, unsigned char *key_str, intkey_size, unsigned char *iv_str, intiv_size, unsigned char *src_str, intsrc_size, unsigned char *aad_str, intaad_size, inttag_len, unsigned char **tag_str, unsigned char **output, int *output_size)"
+AES mode GCM\&.
+.PP
+Library: PolarSSL
+.PP
+Note: in decryption mode, the correct tag should already be filled\&. The data to decrypt should be set in the source string, and the decrypted data will be in the output string\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcrypt\fP ENCRYPT or DECRYPT 
+.br
+\fIkey_str\fP Key string\&. 
+.br
+\fIkey_size\fP Key size in bytes\&. Either 16 or 32\&. 
+.br
+\fIiv_str\fP IV string\&. 
+.br
+\fIiv_size\fP IV string size, in bytes (must be 96)\&. 
+.br
+\fIsrc_str\fP Source string\&. 
+.br
+\fIsrc_size\fP Source string size, in bytes\&. 
+.br
+\fIaad_str\fP Additional data string\&. 
+.br
+\fIaad_size\fP Additional data string size, in bytes\&. 
+.br
+\fItag_str\fP Pointer to the resulting tag string\&. 
+.br
+\fItag_len\fP Tag size in bytes (16)\&. 
+.br
+\fIoutput\fP Pointer to the resulting output\&. 
+.br
+\fIoutput_size\fP Output size, in bytes\&. Set in the function\&. 
+.RE
+.PP
+
+.SS "char* aes_mode_enumtostr (\fBAES_mode\fPmode)"
+
+.PP
+Convert an AES_mode element to a string\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fImode\fP Element to convert\&.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The mode as a readable string\&. Not a complete sentence, just the mode\&. 
+.RE
+.PP
+
+.SS "\fBAES_mode\fP aes_mode_strtoenum (const char *str)"
+
+.PP
+Convert a string to the enum element it describes\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstr\fP String to convert\&. Basically, it's the same name as the enum element, but as a string\&. 
+.RE
+.PP
+
+.SS "void aes_ofb (\fBAES_crypt_type\fPcrypt, unsigned char *key, intkey_size, unsigned char *iv, unsigned char *src, intsrc_size, unsigned char **output, int *output_size)"
+
+.PP
+AES mode OFB\&. Library: openssl
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcrypt\fP ENCRYPT or DECRYPT 
+.br
+\fIkey\fP Key string\&. 
+.br
+\fIkey_size\fP Key size in bytes\&. Either 16, 24 or 32\&. 
+.br
+\fIiv\fP IV string, 128-bits long\&. 
+.br
+\fIsrc\fP Source string\&. 
+.br
+\fIsrc_size\fP Source string size, in bytes\&. 
+.br
+\fIoutput\fP Pointer to the output string\&. No need to allocate memory\&. 
+.br
+\fIoutput_size\fP Output string size, in bytes\&. Set in the function\&. 
+.RE
+.PP
+
+.SS "void aes_omac (unsigned char *key, intkey_size, unsigned char *src_str, intsrc_size, unsigned char **tag_str, inttag_size)"
+AES mode OMAC1\&.
+.PP
+Implementation of \fCBrian Gladman\fP\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIkey\fP Key string\&. 
+.br
+\fIkey_size\fP Key size in bytes\&. Either 16, 24 or 32\&. 
+.br
+\fIsrc_str\fP Source string\&. 
+.br
+\fIsrc_size\fP Source string size, in bytes\&. 
+.br
+\fItag_str\fP Pointer to the resulting tag string\&. Memory allocation is done in function\&. 
+.br
+\fItag_size\fP Tag size in bytes\&. 
+.RE
+.PP
+
+.SS "void aes_wrapper (\fBAES_mode\fPmode, \fBAES_crypt_type\fPcrypt, const \fBAES_input\fP *in, \fBAES_res\fP *res)"
+
+.PP
+AES general wrapper method\&. Switch on the \fCmode\fP and calls the corresponding function\&. Depending on the mode, some elements of the structures are not needed (e\&.g\&. ECB mode does not support IVs)\&. For further details on what is needed, please refer to the specific methods\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fImode\fP AES mode to use\&. 
+.br
+\fIcrypt\fP Encryption or decryption\&. 
+.br
+\fIin\fP Input structure\&. Depending on the mode, not all field need to be filled\&. 
+.br
+\fIres\fP Output structure\&. Depending on the mode, not all fields will be filled\&. 
+.RE
+.PP
+
+.SS "void aes_xts (\fBAES_crypt_type\fPcrypt, unsigned char *key, intkey_size, unsigned char *iv, unsigned char *src, intsrc_size, unsigned char **output, int *output_size)"
+
+.PP
+AES mode XTS\&. Library: openssl
+.PP
+Note: bear in mind that in XTS mode, we use two keys\&. They are concatenated in the \fCkey\fP parameter, resulting in a parameter \fCkeysize\fP twice as big as the keysize of the mode\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcrypt\fP ENCRYPT or DECRYPT 
+.br
+\fIkey\fP Key string\&. The two keys used by the mode should be concatenated\&. 
+.br
+\fIkey_size\fP Key size in bytes\&. Either 64 (for 128-bits mode) or 128 (256-bits mode)\&. 
+.br
+\fIiv\fP IV string, 128-bits long\&. 
+.br
+\fIsrc\fP Source string\&. 
+.br
+\fIsrc_size\fP Source string size, in bytes\&. 
+.br
+\fIoutput\fP Output string\&. No need to allocate memory\&. 
+.br
+\fIoutput_size\fP Output string size, in bytes\&. Set in the function\&. 
+.RE
+.PP
+
+.SS "char* crypt_type_enumtostr (\fBAES_crypt_type\fPcrypt)"
+
+.PP
+Convert an AES_crypt_type element to a string\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcrypt\fP Element to convert\&.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The crypt type as a readable string, either ENCRYPT or DECRYPT\&. 
+.RE
+.PP
+
+.SS "\fBAES_crypt_type\fP crypt_type_strtoenum (const char *str)"
+
+.PP
+Convert a string to the enum element it describes\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstr\fP String to convert\&. Basically, it's the same name as the enum element, but as a string\&. 
+.RE
+.PP
+
+.SS "void init_aes_wrapper (void)"
+
+.PP
+Initialize aes wrapper\&. Load everything needed by the different libraries used for the modes\&. 
+.SS "void openssl_handleErrors (void)"
+
+.PP
+openssl error handler\&. 
+.SS "void polarssl_handleErrors (intstatus, const char *msg_str)"
+
+.PP
+polarssl error handler\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstatus\fP Status of the error, processed by PolarSSL API\&. 
+.br
+\fImsg_str\fP Additional message to the error, null terminated\&. No new line is appended in the function, you should set one in the message\&. 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Crypto AES from the source code\&.

@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "aes_all_modes.h"
+// #include "aes_all_modes.h"
+// #include "aes_wrapper/aes_all_modes.h"
+#include "aes_wrapper/aes_all_modes.h"
 #include "generic_tools.h"
 
 #define MAXLINE_VEC         2048
@@ -47,6 +49,10 @@ int main(int argc, char** argv)
                 printf("%02X", aes_in->key[i]);
             printf("\n");
             aes_res->tag_size = aes_exp_res->tag_size;
+            if((mode == AES_CCM || mode == AES_GCM ) && crypt == DECRYPT) {
+                aes_res->tag = malloc(aes_res->tag_size);
+                memcpy(aes_res->tag, aes_exp_res->tag, aes_res->tag_size);
+            }
             aes_wrapper(mode, crypt, aes_in, aes_res);
             if(mode == AES_ECB || mode == AES_CBC ||
                 mode == AES_OFB || mode == AES_CTR || 

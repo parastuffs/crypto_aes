@@ -1,0 +1,597 @@
+\hypertarget{aes__all__modes_8c}{\section{aes\+\_\+all\+\_\+modes.\+c File Reference}
+\label{aes__all__modes_8c}\index{aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}}
+}
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$polarssl/aes.\+h$>$}\\*
+{\ttfamily \#include $<$polarssl/gcm.\+h$>$}\\*
+{\ttfamily \#include $<$polarssl/error.\+h$>$}\\*
+{\ttfamily \#include $<$polarssl/ccm.\+h$>$}\\*
+{\ttfamily \#include $<$openssl/evp.\+h$>$}\\*
+{\ttfamily \#include $<$openssl/err.\+h$>$}\\*
+{\ttfamily \#include $<$openssl/conf.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}aes\+\_\+gladman/omac.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}aes\+\_\+gladman/cmac.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}aes\+\_\+all\+\_\+modes.\+h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{aes__all__modes_8c_ac09f36bf61e18db6aa4ffe469a127848}{openssl\+\_\+handle\+Errors} (void)
+\begin{DoxyCompactList}\small\item\em openssl error handler. \end{DoxyCompactList}\item 
+void \hyperlink{aes__all__modes_8c_a4514ddc4f4efb7fb0b00595fadd789b4}{polarssl\+\_\+handle\+Errors} (int status, const char $\ast$msg\+\_\+str)
+\begin{DoxyCompactList}\small\item\em polarssl error handler. \end{DoxyCompactList}\item 
+void \hyperlink{aes__all__modes_8c_a365bf02a403ffd016060fa3394525a1e}{aes\+\_\+wrapper} (\hyperlink{aes__all__modes_8h_a657af8e052552040396e884417820c14}{A\+E\+S\+\_\+mode} mode, \hyperlink{aes__all__modes_8h_adfe924b839ec4d6ac6d556d08fa43d5a}{A\+E\+S\+\_\+crypt\+\_\+type} crypt, const \hyperlink{struct_a_e_s__input}{A\+E\+S\+\_\+input} $\ast$in, \hyperlink{struct_a_e_s__res}{A\+E\+S\+\_\+res} $\ast$res)
+\begin{DoxyCompactList}\small\item\em A\+E\+S general wrapper method. \end{DoxyCompactList}\item 
+void \hyperlink{aes__all__modes_8c_ad9513045f3f6f92addaae14646a11cc3}{aes\+\_\+xts} (\hyperlink{aes__all__modes_8h_adfe924b839ec4d6ac6d556d08fa43d5a}{A\+E\+S\+\_\+crypt\+\_\+type} crypt, unsigned char $\ast$key, int key\+\_\+size, unsigned char $\ast$iv, unsigned char $\ast$src, int src\+\_\+size, unsigned char $\ast$$\ast$output, int $\ast$output\+\_\+size)
+\begin{DoxyCompactList}\small\item\em A\+E\+S mode X\+T\+S. \end{DoxyCompactList}\item 
+void \hyperlink{aes__all__modes_8c_a30660f7d80d1ab3cf6295fe28e12d206}{aes\+\_\+ofb} (\hyperlink{aes__all__modes_8h_adfe924b839ec4d6ac6d556d08fa43d5a}{A\+E\+S\+\_\+crypt\+\_\+type} crypt, unsigned char $\ast$key, int key\+\_\+size, unsigned char $\ast$iv, unsigned char $\ast$src, int src\+\_\+size, unsigned char $\ast$$\ast$output, int $\ast$output\+\_\+size)
+\begin{DoxyCompactList}\small\item\em A\+E\+S mode O\+F\+B. \end{DoxyCompactList}\item 
+void \hyperlink{aes__all__modes_8c_aae0c2d1821b95be15edb36a17dfb5254}{aes\+\_\+omac} (unsigned char $\ast$key, int key\+\_\+size, unsigned char $\ast$src\+\_\+str, int src\+\_\+size, unsigned char $\ast$$\ast$tag\+\_\+str, int tag\+\_\+size)
+\item 
+void \hyperlink{aes__all__modes_8c_acef70de988681077d352cd6da15486aa}{aes\+\_\+cmac} (unsigned char $\ast$key, int key\+\_\+size, unsigned char $\ast$src\+\_\+str, int src\+\_\+size, unsigned char $\ast$$\ast$tag\+\_\+str, int tag\+\_\+size)
+\item 
+void \hyperlink{aes__all__modes_8c_ada8640c66939ae05b42769b6174bfd3c}{aes\+\_\+ctr} (unsigned char $\ast$key\+\_\+str, int key\+\_\+size, unsigned char $\ast$nc\+\_\+str, unsigned char $\ast$src\+\_\+str, int src\+\_\+size, unsigned char $\ast$$\ast$dst\+\_\+str, int $\ast$dst\+\_\+size)
+\begin{DoxyCompactList}\small\item\em A\+E\+S mode C\+T\+R. \end{DoxyCompactList}\item 
+void \hyperlink{aes__all__modes_8c_a02fa8a8845552ca2ba6dc9bb802cb034}{aes\+\_\+cbc} (\hyperlink{aes__all__modes_8h_adfe924b839ec4d6ac6d556d08fa43d5a}{A\+E\+S\+\_\+crypt\+\_\+type} crypt, unsigned char $\ast$key\+\_\+str, int key\+\_\+size, unsigned char $\ast$iv\+\_\+str, unsigned char $\ast$src\+\_\+str, int src\+\_\+size, unsigned char $\ast$$\ast$dst\+\_\+str, int $\ast$dst\+\_\+size)
+\begin{DoxyCompactList}\small\item\em A\+E\+S mode C\+B\+C. \end{DoxyCompactList}\item 
+void \hyperlink{aes__all__modes_8c_a574808b8ab7ce4a2b90a9d04e1541b9c}{aes\+\_\+cfb} (\hyperlink{aes__all__modes_8h_adfe924b839ec4d6ac6d556d08fa43d5a}{A\+E\+S\+\_\+crypt\+\_\+type} crypt, unsigned char $\ast$key\+\_\+str, int key\+\_\+size, unsigned char $\ast$iv\+\_\+str, unsigned char $\ast$src\+\_\+str, int src\+\_\+size, unsigned char $\ast$$\ast$dst\+\_\+str, int $\ast$dst\+\_\+size)
+\begin{DoxyCompactList}\small\item\em A\+E\+S mode C\+F\+B. \end{DoxyCompactList}\item 
+void \hyperlink{aes__all__modes_8c_af5dc329da0a6a48d0923c86ff73fea11}{aes\+\_\+ecb} (\hyperlink{aes__all__modes_8h_adfe924b839ec4d6ac6d556d08fa43d5a}{A\+E\+S\+\_\+crypt\+\_\+type} crypt, unsigned char $\ast$key\+\_\+str, int key\+\_\+size, unsigned char $\ast$src\+\_\+str, int src\+\_\+size, unsigned char $\ast$$\ast$dst\+\_\+str, int $\ast$dst\+\_\+size)
+\item 
+void \hyperlink{aes__all__modes_8c_a8273db45108c33f6988c8f10e7b81e07}{aes\+\_\+ccm} (\hyperlink{aes__all__modes_8h_adfe924b839ec4d6ac6d556d08fa43d5a}{A\+E\+S\+\_\+crypt\+\_\+type} crypt, unsigned char $\ast$key\+\_\+str, int key\+\_\+size, unsigned char $\ast$iv\+\_\+str, int iv\+\_\+size, unsigned char $\ast$src\+\_\+str, int src\+\_\+size, unsigned char $\ast$aad\+\_\+str, int aad\+\_\+size, int tag\+\_\+len, unsigned char $\ast$$\ast$tag\+\_\+str, unsigned char $\ast$$\ast$output, int $\ast$output\+\_\+size)
+\item 
+void \hyperlink{aes__all__modes_8c_acb33b155e51df42cfc59b6cb357fe78f}{aes\+\_\+gcm} (\hyperlink{aes__all__modes_8h_adfe924b839ec4d6ac6d556d08fa43d5a}{A\+E\+S\+\_\+crypt\+\_\+type} crypt, unsigned char $\ast$key\+\_\+str, int key\+\_\+size, unsigned char $\ast$iv\+\_\+str, int iv\+\_\+size, unsigned char $\ast$src\+\_\+str, int src\+\_\+size, unsigned char $\ast$aad\+\_\+str, int aad\+\_\+size, int tag\+\_\+len, unsigned char $\ast$$\ast$tag\+\_\+str, unsigned char $\ast$$\ast$output, int $\ast$output\+\_\+size)
+\item 
+void \hyperlink{aes__all__modes_8c_a796aa1513410ffdf73efe3a81b2aba1b}{init\+\_\+aes\+\_\+wrapper} ()
+\begin{DoxyCompactList}\small\item\em Initialize aes wrapper. \end{DoxyCompactList}\item 
+\hyperlink{aes__all__modes_8h_adfe924b839ec4d6ac6d556d08fa43d5a}{A\+E\+S\+\_\+crypt\+\_\+type} \hyperlink{aes__all__modes_8c_ad26309239a5e2f27a442c683654cadf1}{crypt\+\_\+type\+\_\+strtoenum} (const char $\ast$str)
+\begin{DoxyCompactList}\small\item\em Convert a string to the enum element it describes. \end{DoxyCompactList}\item 
+\hyperlink{aes__all__modes_8h_a657af8e052552040396e884417820c14}{A\+E\+S\+\_\+mode} \hyperlink{aes__all__modes_8c_ac66fe92e7a91da777afc972c9c6d73bf}{aes\+\_\+mode\+\_\+strtoenum} (const char $\ast$str)
+\begin{DoxyCompactList}\small\item\em Convert a string to the enum element it describes. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{aes__all__modes_8c_acf676d0303a818fc5986c9f7ebd5b7c5}{aes\+\_\+mode\+\_\+enumtostr} (\hyperlink{aes__all__modes_8h_a657af8e052552040396e884417820c14}{A\+E\+S\+\_\+mode} mode)
+\begin{DoxyCompactList}\small\item\em Convert an A\+E\+S\+\_\+mode element to a string. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{aes__all__modes_8c_a4c87f58ea9dd057bc2087855ee95c271}{crypt\+\_\+type\+\_\+enumtostr} (\hyperlink{aes__all__modes_8h_adfe924b839ec4d6ac6d556d08fa43d5a}{A\+E\+S\+\_\+crypt\+\_\+type} crypt)
+\begin{DoxyCompactList}\small\item\em Convert an A\+E\+S\+\_\+crypt\+\_\+type element to a string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{aes__all__modes_8c_a02fa8a8845552ca2ba6dc9bb802cb034}{\index{aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}!aes\+\_\+cbc@{aes\+\_\+cbc}}
+\index{aes\+\_\+cbc@{aes\+\_\+cbc}!aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}}
+\subsubsection[{aes\+\_\+cbc}]{\setlength{\rightskip}{0pt plus 5cm}void aes\+\_\+cbc (
+\begin{DoxyParamCaption}
+\item[{{\bf A\+E\+S\+\_\+crypt\+\_\+type}}]{crypt, }
+\item[{unsigned char $\ast$}]{key\+\_\+str, }
+\item[{int}]{key\+\_\+size, }
+\item[{unsigned char $\ast$}]{iv\+\_\+str, }
+\item[{unsigned char $\ast$}]{src\+\_\+str, }
+\item[{int}]{src\+\_\+size, }
+\item[{unsigned char $\ast$$\ast$}]{dst\+\_\+str, }
+\item[{int $\ast$}]{dst\+\_\+size}
+\end{DoxyParamCaption}
+)}}\label{aes__all__modes_8c_a02fa8a8845552ca2ba6dc9bb802cb034}
+
+
+A\+E\+S mode C\+B\+C. 
+
+Library\+: Polar\+S\+S\+L
+
+
+\begin{DoxyParams}[1]{Parameters}
+ & {\em crypt} & E\+N\+C\+R\+Y\+P\+T or D\+E\+C\+R\+Y\+P\+T \\
+\hline
+ & {\em key\+\_\+str} & Key string. \\
+\hline
+ & {\em key\+\_\+size} & Key size in bytes. Either 16, 24 or 32. \\
+\hline
+\mbox{\tt in}  & {\em iv\+\_\+str} & I\+V string, 128-\/bits long. \\
+\hline
+\mbox{\tt in}  & {\em src\+\_\+str} & Source string. Must be a multiple of 16 bytes. \\
+\hline
+ & {\em src\+\_\+size} & Source string size, in bytes. \\
+\hline
+\mbox{\tt out}  & {\em dst\+\_\+str} & Poiter to the output string. No need to allocate memory. \\
+\hline
+\mbox{\tt out}  & {\em dst\+\_\+size} & Output string size, in bytes. Set in the function. \\
+\hline
+\end{DoxyParams}
+\hypertarget{aes__all__modes_8c_a8273db45108c33f6988c8f10e7b81e07}{\index{aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}!aes\+\_\+ccm@{aes\+\_\+ccm}}
+\index{aes\+\_\+ccm@{aes\+\_\+ccm}!aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}}
+\subsubsection[{aes\+\_\+ccm}]{\setlength{\rightskip}{0pt plus 5cm}void aes\+\_\+ccm (
+\begin{DoxyParamCaption}
+\item[{{\bf A\+E\+S\+\_\+crypt\+\_\+type}}]{crypt, }
+\item[{unsigned char $\ast$}]{key\+\_\+str, }
+\item[{int}]{key\+\_\+size, }
+\item[{unsigned char $\ast$}]{iv\+\_\+str, }
+\item[{int}]{iv\+\_\+size, }
+\item[{unsigned char $\ast$}]{src\+\_\+str, }
+\item[{int}]{src\+\_\+size, }
+\item[{unsigned char $\ast$}]{aad\+\_\+str, }
+\item[{int}]{aad\+\_\+size, }
+\item[{int}]{tag\+\_\+len, }
+\item[{unsigned char $\ast$$\ast$}]{tag\+\_\+str, }
+\item[{unsigned char $\ast$$\ast$}]{output, }
+\item[{int $\ast$}]{output\+\_\+size}
+\end{DoxyParamCaption}
+)}}\label{aes__all__modes_8c_a8273db45108c33f6988c8f10e7b81e07}
+A\+E\+S mode C\+C\+M.
+
+Library\+: Polar\+S\+S\+L
+
+Note\+: in decryption mode, the correct tag should already be filled. The data to decrypt should be set in the source string, and the decrypted data will be in the output string.
+
+
+\begin{DoxyParams}[1]{Parameters}
+ & {\em crypt} & E\+N\+C\+R\+Y\+P\+T or D\+E\+C\+R\+Y\+P\+T \\
+\hline
+ & {\em key\+\_\+str} & Key string. \\
+\hline
+ & {\em key\+\_\+size} & Key size in bytes. Either 16, 24 or 32. \\
+\hline
+ & {\em iv\+\_\+str} & I\+V string. \\
+\hline
+ & {\em iv\+\_\+size} & I\+V string size, in bytes. \\
+\hline
+\mbox{\tt in}  & {\em src\+\_\+str} & Source string. \\
+\hline
+ & {\em src\+\_\+size} & Source string size, in bytes. \\
+\hline
+ & {\em aad\+\_\+str} & Additional data string. \\
+\hline
+ & {\em aad\+\_\+size} & Additional data string size, in bytes. \\
+\hline
+\mbox{\tt out}  & {\em tag\+\_\+str} & Pointer to the resulting tag string. \\
+\hline
+\mbox{\tt in}  & {\em tag\+\_\+len} & Tag size in bytes. \\
+\hline
+\mbox{\tt out}  & {\em output} & Pointer to the resulting output. \\
+\hline
+\mbox{\tt out}  & {\em output\+\_\+size} & Output size, in bytes. Set in the function. \\
+\hline
+\end{DoxyParams}
+\hypertarget{aes__all__modes_8c_a574808b8ab7ce4a2b90a9d04e1541b9c}{\index{aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}!aes\+\_\+cfb@{aes\+\_\+cfb}}
+\index{aes\+\_\+cfb@{aes\+\_\+cfb}!aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}}
+\subsubsection[{aes\+\_\+cfb}]{\setlength{\rightskip}{0pt plus 5cm}void aes\+\_\+cfb (
+\begin{DoxyParamCaption}
+\item[{{\bf A\+E\+S\+\_\+crypt\+\_\+type}}]{crypt, }
+\item[{unsigned char $\ast$}]{key\+\_\+str, }
+\item[{int}]{key\+\_\+size, }
+\item[{unsigned char $\ast$}]{iv\+\_\+str, }
+\item[{unsigned char $\ast$}]{src\+\_\+str, }
+\item[{int}]{src\+\_\+size, }
+\item[{unsigned char $\ast$$\ast$}]{dst\+\_\+str, }
+\item[{int $\ast$}]{dst\+\_\+size}
+\end{DoxyParamCaption}
+)}}\label{aes__all__modes_8c_a574808b8ab7ce4a2b90a9d04e1541b9c}
+
+
+A\+E\+S mode C\+F\+B. 
+
+Library\+: Polar\+S\+S\+L
+
+
+\begin{DoxyParams}[1]{Parameters}
+ & {\em crypt} & E\+N\+C\+R\+Y\+P\+T or D\+E\+C\+R\+Y\+P\+T \\
+\hline
+ & {\em key\+\_\+str} & Key string. \\
+\hline
+ & {\em key\+\_\+size} & Key size in bytes. Either 16, 24 or 32. \\
+\hline
+\mbox{\tt in}  & {\em iv\+\_\+str} & I\+V string, 128-\/bits long. \\
+\hline
+\mbox{\tt in}  & {\em src\+\_\+str} & Source string. \\
+\hline
+ & {\em src\+\_\+size} & Source string size, in bytes. \\
+\hline
+\mbox{\tt out}  & {\em dst\+\_\+str} & Pointer to the output string. No need to allocate memory. \\
+\hline
+\mbox{\tt out}  & {\em dst\+\_\+size} & Output string size, in bytes. Set in the function. \\
+\hline
+\end{DoxyParams}
+\hypertarget{aes__all__modes_8c_acef70de988681077d352cd6da15486aa}{\index{aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}!aes\+\_\+cmac@{aes\+\_\+cmac}}
+\index{aes\+\_\+cmac@{aes\+\_\+cmac}!aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}}
+\subsubsection[{aes\+\_\+cmac}]{\setlength{\rightskip}{0pt plus 5cm}void aes\+\_\+cmac (
+\begin{DoxyParamCaption}
+\item[{unsigned char $\ast$}]{key, }
+\item[{int}]{key\+\_\+size, }
+\item[{unsigned char $\ast$}]{src\+\_\+str, }
+\item[{int}]{src\+\_\+size, }
+\item[{unsigned char $\ast$$\ast$}]{tag\+\_\+str, }
+\item[{int}]{tag\+\_\+size}
+\end{DoxyParamCaption}
+)}}\label{aes__all__modes_8c_acef70de988681077d352cd6da15486aa}
+A\+E\+S mode C\+M\+A\+C.
+
+Implementation of \href{http://brgladman.org/oldsite/AES/}{\tt Brian Gladman}.
+
+
+\begin{DoxyParams}[1]{Parameters}
+ & {\em key} & Key string. \\
+\hline
+ & {\em key\+\_\+size} & Key size in bytes. Either 16, 24 or 32. \\
+\hline
+\mbox{\tt in}  & {\em src\+\_\+str} & Source string. \\
+\hline
+ & {\em src\+\_\+size} & Source string size, in bytes. \\
+\hline
+\mbox{\tt out}  & {\em tag\+\_\+str} & Pointer to the resulting tag string. Memory allocation is done in function. \\
+\hline
+\mbox{\tt in}  & {\em tag\+\_\+size} & Tag size in bytes. Supports any length of tag up to 16 bytes. Tags smaller than 16 bytes are simply truncated. \\
+\hline
+\end{DoxyParams}
+\hypertarget{aes__all__modes_8c_ada8640c66939ae05b42769b6174bfd3c}{\index{aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}!aes\+\_\+ctr@{aes\+\_\+ctr}}
+\index{aes\+\_\+ctr@{aes\+\_\+ctr}!aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}}
+\subsubsection[{aes\+\_\+ctr}]{\setlength{\rightskip}{0pt plus 5cm}void aes\+\_\+ctr (
+\begin{DoxyParamCaption}
+\item[{unsigned char $\ast$}]{key\+\_\+str, }
+\item[{int}]{key\+\_\+size, }
+\item[{unsigned char $\ast$}]{nc\+\_\+str, }
+\item[{unsigned char $\ast$}]{src\+\_\+str, }
+\item[{int}]{src\+\_\+size, }
+\item[{unsigned char $\ast$$\ast$}]{dst\+\_\+str, }
+\item[{int $\ast$}]{dst\+\_\+size}
+\end{DoxyParamCaption}
+)}}\label{aes__all__modes_8c_ada8640c66939ae05b42769b6174bfd3c}
+
+
+A\+E\+S mode C\+T\+R. 
+
+Library\+: Polar\+S\+S\+L
+
+If the input data is larger than one block (128 bits), the counter is automatically incremented by Polar\+S\+S\+L.
+
+There is no distinction between the encrypt and decrypt mode.
+
+
+\begin{DoxyParams}[1]{Parameters}
+ & {\em key\+\_\+str} & Key string. \\
+\hline
+ & {\em key\+\_\+size} & Key size in bytes. Either 16, 24 or 32. \\
+\hline
+ & {\em nc\+\_\+str} & Nonce counter string, equivalent to the I\+V in other modes. 128-\/bits long. \\
+\hline
+\mbox{\tt in}  & {\em src\+\_\+str} & Source string. \\
+\hline
+ & {\em src\+\_\+size} & Source string size, in bytes. \\
+\hline
+\mbox{\tt out}  & {\em dst\+\_\+str} & Pointer to the output string. No need to allocate memory. \\
+\hline
+\mbox{\tt out}  & {\em dst\+\_\+size} & Output string size, in bytes. Set in the function. \\
+\hline
+\end{DoxyParams}
+\hypertarget{aes__all__modes_8c_af5dc329da0a6a48d0923c86ff73fea11}{\index{aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}!aes\+\_\+ecb@{aes\+\_\+ecb}}
+\index{aes\+\_\+ecb@{aes\+\_\+ecb}!aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}}
+\subsubsection[{aes\+\_\+ecb}]{\setlength{\rightskip}{0pt plus 5cm}void aes\+\_\+ecb (
+\begin{DoxyParamCaption}
+\item[{{\bf A\+E\+S\+\_\+crypt\+\_\+type}}]{mode, }
+\item[{unsigned char $\ast$}]{key\+\_\+str, }
+\item[{int}]{key\+\_\+size, }
+\item[{unsigned char $\ast$}]{src\+\_\+str, }
+\item[{int}]{src\+\_\+size, }
+\item[{unsigned char $\ast$$\ast$}]{dst\+\_\+str, }
+\item[{int $\ast$}]{dst\+\_\+size}
+\end{DoxyParamCaption}
+)}}\label{aes__all__modes_8c_af5dc329da0a6a48d0923c86ff73fea11}
+A\+E\+S mode E\+C\+B.
+
+Library\+: open\+S\+S\+L
+
+
+\begin{DoxyParams}[1]{Parameters}
+ & {\em mode} & Encryption mode. \\
+\hline
+ & {\em key\+\_\+str} & Key string. \\
+\hline
+ & {\em key\+\_\+size} & Key size in bytes. Either 16, 24 or 32. \\
+\hline
+\mbox{\tt in}  & {\em src\+\_\+str} & Plain text string to be encrypted or decrypted. \\
+\hline
+ & {\em src\+\_\+size} & Plain text size, in bytes. Must be a multiple of 16 bytes. \\
+\hline
+\mbox{\tt out}  & {\em dst\+\_\+str} & Pointer to the output string. Initialized in the function. \\
+\hline
+ & {\em dst\+\_\+size} & Pointer to the output string size, set in function. \\
+\hline
+\end{DoxyParams}
+\hypertarget{aes__all__modes_8c_acb33b155e51df42cfc59b6cb357fe78f}{\index{aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}!aes\+\_\+gcm@{aes\+\_\+gcm}}
+\index{aes\+\_\+gcm@{aes\+\_\+gcm}!aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}}
+\subsubsection[{aes\+\_\+gcm}]{\setlength{\rightskip}{0pt plus 5cm}void aes\+\_\+gcm (
+\begin{DoxyParamCaption}
+\item[{{\bf A\+E\+S\+\_\+crypt\+\_\+type}}]{crypt, }
+\item[{unsigned char $\ast$}]{key\+\_\+str, }
+\item[{int}]{key\+\_\+size, }
+\item[{unsigned char $\ast$}]{iv\+\_\+str, }
+\item[{int}]{iv\+\_\+size, }
+\item[{unsigned char $\ast$}]{src\+\_\+str, }
+\item[{int}]{src\+\_\+size, }
+\item[{unsigned char $\ast$}]{aad\+\_\+str, }
+\item[{int}]{aad\+\_\+size, }
+\item[{int}]{tag\+\_\+len, }
+\item[{unsigned char $\ast$$\ast$}]{tag\+\_\+str, }
+\item[{unsigned char $\ast$$\ast$}]{output, }
+\item[{int $\ast$}]{output\+\_\+size}
+\end{DoxyParamCaption}
+)}}\label{aes__all__modes_8c_acb33b155e51df42cfc59b6cb357fe78f}
+A\+E\+S mode G\+C\+M.
+
+Library\+: Polar\+S\+S\+L
+
+Note\+: in decryption mode, the correct tag should already be filled. The data to decrypt should be set in the source string, and the decrypted data will be in the output string.
+
+
+\begin{DoxyParams}[1]{Parameters}
+ & {\em crypt} & E\+N\+C\+R\+Y\+P\+T or D\+E\+C\+R\+Y\+P\+T \\
+\hline
+ & {\em key\+\_\+str} & Key string. \\
+\hline
+ & {\em key\+\_\+size} & Key size in bytes. Either 16 or 32. \\
+\hline
+ & {\em iv\+\_\+str} & I\+V string. \\
+\hline
+ & {\em iv\+\_\+size} & I\+V string size, in bytes (must be 96). \\
+\hline
+\mbox{\tt in}  & {\em src\+\_\+str} & Source string. \\
+\hline
+ & {\em src\+\_\+size} & Source string size, in bytes. \\
+\hline
+ & {\em aad\+\_\+str} & Additional data string. \\
+\hline
+ & {\em aad\+\_\+size} & Additional data string size, in bytes. \\
+\hline
+\mbox{\tt out}  & {\em tag\+\_\+str} & Pointer to the resulting tag string. \\
+\hline
+\mbox{\tt in}  & {\em tag\+\_\+len} & Tag size in bytes (16). \\
+\hline
+\mbox{\tt out}  & {\em output} & Pointer to the resulting output. \\
+\hline
+\mbox{\tt out}  & {\em output\+\_\+size} & Output size, in bytes. Set in the function. \\
+\hline
+\end{DoxyParams}
+\hypertarget{aes__all__modes_8c_acf676d0303a818fc5986c9f7ebd5b7c5}{\index{aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}!aes\+\_\+mode\+\_\+enumtostr@{aes\+\_\+mode\+\_\+enumtostr}}
+\index{aes\+\_\+mode\+\_\+enumtostr@{aes\+\_\+mode\+\_\+enumtostr}!aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}}
+\subsubsection[{aes\+\_\+mode\+\_\+enumtostr}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ aes\+\_\+mode\+\_\+enumtostr (
+\begin{DoxyParamCaption}
+\item[{{\bf A\+E\+S\+\_\+mode}}]{mode}
+\end{DoxyParamCaption}
+)}}\label{aes__all__modes_8c_acf676d0303a818fc5986c9f7ebd5b7c5}
+
+
+Convert an A\+E\+S\+\_\+mode element to a string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mode} & Element to convert.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The mode as a readable string. Not a complete sentence, just the mode. 
+\end{DoxyReturn}
+\hypertarget{aes__all__modes_8c_ac66fe92e7a91da777afc972c9c6d73bf}{\index{aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}!aes\+\_\+mode\+\_\+strtoenum@{aes\+\_\+mode\+\_\+strtoenum}}
+\index{aes\+\_\+mode\+\_\+strtoenum@{aes\+\_\+mode\+\_\+strtoenum}!aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}}
+\subsubsection[{aes\+\_\+mode\+\_\+strtoenum}]{\setlength{\rightskip}{0pt plus 5cm}{\bf A\+E\+S\+\_\+mode} aes\+\_\+mode\+\_\+strtoenum (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{str}
+\end{DoxyParamCaption}
+)}}\label{aes__all__modes_8c_ac66fe92e7a91da777afc972c9c6d73bf}
+
+
+Convert a string to the enum element it describes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & String to convert. Basically, it's the same name as the enum element, but as a string. \\
+\hline
+\end{DoxyParams}
+\hypertarget{aes__all__modes_8c_a30660f7d80d1ab3cf6295fe28e12d206}{\index{aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}!aes\+\_\+ofb@{aes\+\_\+ofb}}
+\index{aes\+\_\+ofb@{aes\+\_\+ofb}!aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}}
+\subsubsection[{aes\+\_\+ofb}]{\setlength{\rightskip}{0pt plus 5cm}void aes\+\_\+ofb (
+\begin{DoxyParamCaption}
+\item[{{\bf A\+E\+S\+\_\+crypt\+\_\+type}}]{crypt, }
+\item[{unsigned char $\ast$}]{key, }
+\item[{int}]{key\+\_\+size, }
+\item[{unsigned char $\ast$}]{iv, }
+\item[{unsigned char $\ast$}]{src, }
+\item[{int}]{src\+\_\+size, }
+\item[{unsigned char $\ast$$\ast$}]{output, }
+\item[{int $\ast$}]{output\+\_\+size}
+\end{DoxyParamCaption}
+)}}\label{aes__all__modes_8c_a30660f7d80d1ab3cf6295fe28e12d206}
+
+
+A\+E\+S mode O\+F\+B. 
+
+Library\+: openssl
+
+
+\begin{DoxyParams}[1]{Parameters}
+ & {\em crypt} & E\+N\+C\+R\+Y\+P\+T or D\+E\+C\+R\+Y\+P\+T \\
+\hline
+ & {\em key} & Key string. \\
+\hline
+ & {\em key\+\_\+size} & Key size in bytes. Either 16, 24 or 32. \\
+\hline
+\mbox{\tt in}  & {\em iv} & I\+V string, 128-\/bits long. \\
+\hline
+\mbox{\tt in}  & {\em src} & Source string. \\
+\hline
+ & {\em src\+\_\+size} & Source string size, in bytes. \\
+\hline
+\mbox{\tt out}  & {\em output} & Pointer to the output string. No need to allocate memory. \\
+\hline
+\mbox{\tt out}  & {\em output\+\_\+size} & Output string size, in bytes. Set in the function. \\
+\hline
+\end{DoxyParams}
+\hypertarget{aes__all__modes_8c_aae0c2d1821b95be15edb36a17dfb5254}{\index{aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}!aes\+\_\+omac@{aes\+\_\+omac}}
+\index{aes\+\_\+omac@{aes\+\_\+omac}!aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}}
+\subsubsection[{aes\+\_\+omac}]{\setlength{\rightskip}{0pt plus 5cm}void aes\+\_\+omac (
+\begin{DoxyParamCaption}
+\item[{unsigned char $\ast$}]{key, }
+\item[{int}]{key\+\_\+size, }
+\item[{unsigned char $\ast$}]{src\+\_\+str, }
+\item[{int}]{src\+\_\+size, }
+\item[{unsigned char $\ast$$\ast$}]{tag\+\_\+str, }
+\item[{int}]{tag\+\_\+size}
+\end{DoxyParamCaption}
+)}}\label{aes__all__modes_8c_aae0c2d1821b95be15edb36a17dfb5254}
+A\+E\+S mode O\+M\+A\+C1.
+
+Implementation of \href{http://brgladman.org/oldsite/AES/}{\tt Brian Gladman}.
+
+
+\begin{DoxyParams}[1]{Parameters}
+ & {\em key} & Key string. \\
+\hline
+ & {\em key\+\_\+size} & Key size in bytes. Either 16, 24 or 32. \\
+\hline
+\mbox{\tt in}  & {\em src\+\_\+str} & Source string. \\
+\hline
+ & {\em src\+\_\+size} & Source string size, in bytes. \\
+\hline
+\mbox{\tt out}  & {\em tag\+\_\+str} & Pointer to the resulting tag string. Memory allocation is done in function. \\
+\hline
+\mbox{\tt in}  & {\em tag\+\_\+size} & Tag size in bytes. \\
+\hline
+\end{DoxyParams}
+\hypertarget{aes__all__modes_8c_a365bf02a403ffd016060fa3394525a1e}{\index{aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}!aes\+\_\+wrapper@{aes\+\_\+wrapper}}
+\index{aes\+\_\+wrapper@{aes\+\_\+wrapper}!aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}}
+\subsubsection[{aes\+\_\+wrapper}]{\setlength{\rightskip}{0pt plus 5cm}void aes\+\_\+wrapper (
+\begin{DoxyParamCaption}
+\item[{{\bf A\+E\+S\+\_\+mode}}]{mode, }
+\item[{{\bf A\+E\+S\+\_\+crypt\+\_\+type}}]{crypt, }
+\item[{const {\bf A\+E\+S\+\_\+input} $\ast$}]{in, }
+\item[{{\bf A\+E\+S\+\_\+res} $\ast$}]{res}
+\end{DoxyParamCaption}
+)}}\label{aes__all__modes_8c_a365bf02a403ffd016060fa3394525a1e}
+
+
+A\+E\+S general wrapper method. 
+
+Switch on the {\ttfamily mode} and calls the corresponding function. Depending on the mode, some elements of the structures are not needed (e.\+g. E\+C\+B mode does not support I\+Vs). For further details on what is needed, please refer to the specific methods.
+
+
+\begin{DoxyParams}[1]{Parameters}
+ & {\em mode} & A\+E\+S mode to use. \\
+\hline
+ & {\em crypt} & Encryption or decryption. \\
+\hline
+\mbox{\tt in}  & {\em in} & Input structure. Depending on the mode, not all field need to be filled. \\
+\hline
+\mbox{\tt out}  & {\em res} & Output structure. Depending on the mode, not all fields will be filled. \\
+\hline
+\end{DoxyParams}
+\hypertarget{aes__all__modes_8c_ad9513045f3f6f92addaae14646a11cc3}{\index{aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}!aes\+\_\+xts@{aes\+\_\+xts}}
+\index{aes\+\_\+xts@{aes\+\_\+xts}!aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}}
+\subsubsection[{aes\+\_\+xts}]{\setlength{\rightskip}{0pt plus 5cm}void aes\+\_\+xts (
+\begin{DoxyParamCaption}
+\item[{{\bf A\+E\+S\+\_\+crypt\+\_\+type}}]{crypt, }
+\item[{unsigned char $\ast$}]{key, }
+\item[{int}]{key\+\_\+size, }
+\item[{unsigned char $\ast$}]{iv, }
+\item[{unsigned char $\ast$}]{src, }
+\item[{int}]{src\+\_\+size, }
+\item[{unsigned char $\ast$$\ast$}]{output, }
+\item[{int $\ast$}]{output\+\_\+size}
+\end{DoxyParamCaption}
+)}}\label{aes__all__modes_8c_ad9513045f3f6f92addaae14646a11cc3}
+
+
+A\+E\+S mode X\+T\+S. 
+
+Library\+: openssl
+
+Note\+: bear in mind that in X\+T\+S mode, we use two keys. They are concatenated in the {\ttfamily key} parameter, resulting in a parameter {\ttfamily keysize} twice as big as the keysize of the mode.
+
+
+\begin{DoxyParams}[1]{Parameters}
+ & {\em crypt} & E\+N\+C\+R\+Y\+P\+T or D\+E\+C\+R\+Y\+P\+T \\
+\hline
+ & {\em key} & Key string. The two keys used by the mode should be concatenated. \\
+\hline
+ & {\em key\+\_\+size} & Key size in bytes. Either 64 (for 128-\/bits mode) or 128 (256-\/bits mode). \\
+\hline
+\mbox{\tt in}  & {\em iv} & I\+V string, 128-\/bits long. \\
+\hline
+\mbox{\tt in}  & {\em src} & Source string. \\
+\hline
+ & {\em src\+\_\+size} & Source string size, in bytes. \\
+\hline
+\mbox{\tt out}  & {\em output} & Output string. No need to allocate memory. \\
+\hline
+\mbox{\tt out}  & {\em output\+\_\+size} & Output string size, in bytes. Set in the function. \\
+\hline
+\end{DoxyParams}
+\hypertarget{aes__all__modes_8c_a4c87f58ea9dd057bc2087855ee95c271}{\index{aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}!crypt\+\_\+type\+\_\+enumtostr@{crypt\+\_\+type\+\_\+enumtostr}}
+\index{crypt\+\_\+type\+\_\+enumtostr@{crypt\+\_\+type\+\_\+enumtostr}!aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}}
+\subsubsection[{crypt\+\_\+type\+\_\+enumtostr}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ crypt\+\_\+type\+\_\+enumtostr (
+\begin{DoxyParamCaption}
+\item[{{\bf A\+E\+S\+\_\+crypt\+\_\+type}}]{crypt}
+\end{DoxyParamCaption}
+)}}\label{aes__all__modes_8c_a4c87f58ea9dd057bc2087855ee95c271}
+
+
+Convert an A\+E\+S\+\_\+crypt\+\_\+type element to a string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em crypt} & Element to convert.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The crypt type as a readable string, either E\+N\+C\+R\+Y\+P\+T or D\+E\+C\+R\+Y\+P\+T. 
+\end{DoxyReturn}
+\hypertarget{aes__all__modes_8c_ad26309239a5e2f27a442c683654cadf1}{\index{aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}!crypt\+\_\+type\+\_\+strtoenum@{crypt\+\_\+type\+\_\+strtoenum}}
+\index{crypt\+\_\+type\+\_\+strtoenum@{crypt\+\_\+type\+\_\+strtoenum}!aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}}
+\subsubsection[{crypt\+\_\+type\+\_\+strtoenum}]{\setlength{\rightskip}{0pt plus 5cm}{\bf A\+E\+S\+\_\+crypt\+\_\+type} crypt\+\_\+type\+\_\+strtoenum (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{str}
+\end{DoxyParamCaption}
+)}}\label{aes__all__modes_8c_ad26309239a5e2f27a442c683654cadf1}
+
+
+Convert a string to the enum element it describes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & String to convert. Basically, it's the same name as the enum element, but as a string. \\
+\hline
+\end{DoxyParams}
+\hypertarget{aes__all__modes_8c_a796aa1513410ffdf73efe3a81b2aba1b}{\index{aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}!init\+\_\+aes\+\_\+wrapper@{init\+\_\+aes\+\_\+wrapper}}
+\index{init\+\_\+aes\+\_\+wrapper@{init\+\_\+aes\+\_\+wrapper}!aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}}
+\subsubsection[{init\+\_\+aes\+\_\+wrapper}]{\setlength{\rightskip}{0pt plus 5cm}void init\+\_\+aes\+\_\+wrapper (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{aes__all__modes_8c_a796aa1513410ffdf73efe3a81b2aba1b}
+
+
+Initialize aes wrapper. 
+
+Load everything needed by the different libraries used for the modes. \hypertarget{aes__all__modes_8c_ac09f36bf61e18db6aa4ffe469a127848}{\index{aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}!openssl\+\_\+handle\+Errors@{openssl\+\_\+handle\+Errors}}
+\index{openssl\+\_\+handle\+Errors@{openssl\+\_\+handle\+Errors}!aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}}
+\subsubsection[{openssl\+\_\+handle\+Errors}]{\setlength{\rightskip}{0pt plus 5cm}void openssl\+\_\+handle\+Errors (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{aes__all__modes_8c_ac09f36bf61e18db6aa4ffe469a127848}
+
+
+openssl error handler. 
+
+\hypertarget{aes__all__modes_8c_a4514ddc4f4efb7fb0b00595fadd789b4}{\index{aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}!polarssl\+\_\+handle\+Errors@{polarssl\+\_\+handle\+Errors}}
+\index{polarssl\+\_\+handle\+Errors@{polarssl\+\_\+handle\+Errors}!aes\+\_\+all\+\_\+modes.\+c@{aes\+\_\+all\+\_\+modes.\+c}}
+\subsubsection[{polarssl\+\_\+handle\+Errors}]{\setlength{\rightskip}{0pt plus 5cm}void polarssl\+\_\+handle\+Errors (
+\begin{DoxyParamCaption}
+\item[{int}]{status, }
+\item[{const char $\ast$}]{msg\+\_\+str}
+\end{DoxyParamCaption}
+)}}\label{aes__all__modes_8c_a4514ddc4f4efb7fb0b00595fadd789b4}
+
+
+polarssl error handler. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em status} & Status of the error, processed by Polar\+S\+S\+L A\+P\+I. \\
+\hline
+{\em msg\+\_\+str} & Additional message to the error, null terminated. No new line is appended in the function, you should set one in the message. \\
+\hline
+\end{DoxyParams}
